@@ -38,14 +38,13 @@ public class OneToOneTwoWayTest {
 
         userRepository.save(user);
         foodRepository.save(food);
-
         // 확인해 보시면 user_id 값이 들어가 있지 않은 것을 확인하실 수 있습니다.
 
     }
 
     @Test
     @Rollback(value = false)
-    @DisplayName("1대1 양방향 테스트 : 외래 키 저장 실패 -> 성공")
+    @DisplayName("1대1 양방향 테스트 : 외래 키성공")
     void savedByDependentAndOwnerTest() {
         FoodOTOTwoWayOwner food = getFood();
 
@@ -71,6 +70,7 @@ public class OneToOneTwoWayTest {
     }
 
 
+    // TODO: 2023-11-10 조회 테스트 수정 필요
     @Test
     @DisplayName("1대1 조회 : Owner 기준 Dependent 정보 조회")
     void findDependentByOwnerTest() {
