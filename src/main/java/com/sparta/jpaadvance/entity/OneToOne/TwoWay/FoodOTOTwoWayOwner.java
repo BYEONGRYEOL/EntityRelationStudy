@@ -20,12 +20,16 @@ public class FoodOTOTwoWayOwner {
     private double price;
 
     @OneToOne
-    @JoinColumn(name = "userOTOOneWayDependent_id")
-    private UserOTOOneWayDependent user;
+    @JoinColumn(name = "userOTOTwoWayDependent_id")
+    private UserOTOTwoWayDependent user;
 
     public FoodOTOTwoWayOwner(String name, double price) {
         this.name = name;
         this.price = price;
+    }
+
+    public void setUser(UserOTOTwoWayDependent user) {
+        this.user = user;
     }
 }
 
