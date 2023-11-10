@@ -1,18 +1,16 @@
-package com.sparta.jpaadvance.entity;
+package com.sparta.jpaadvance.entity.OneToOne.OneWay;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "food")
 @NoArgsConstructor
-public class FoodOneToOneOwner {
+public class FoodOTOOneWayOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,10 +19,10 @@ public class FoodOneToOneOwner {
     private double price;
 
     @OneToOne
-    @JoinColumn(name = "userOneToOneDependent_id")
-    private UserOneToOneDependent userOneToOneDependent;
+    @JoinColumn(name = "userOTOOneWayDependent_id")
+    private UserOTOOneWayDependent user;
 
-    public FoodOneToOneOwner(String name, double price) {
+    public FoodOTOOneWayOwner(String name, double price) {
         this.name = name;
         this.price = price;
     }

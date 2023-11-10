@@ -1,9 +1,9 @@
 package com.sparta.jpaadvance.relation;
 
-import com.sparta.jpaadvance.entity.FoodOneToOneOwner;
-import com.sparta.jpaadvance.entity.UserOneToOneDependent;
-import com.sparta.jpaadvance.repository.FoodOneToOneOwnerRepository;
-import com.sparta.jpaadvance.repository.UserOneToOneDependentRepository;
+import com.sparta.jpaadvance.entity.OneToOne.OneWay.FoodOTOOneWayOwner;
+import com.sparta.jpaadvance.entity.OneToOne.OneWay.UserOTOOneWayDependent;
+import com.sparta.jpaadvance.repository.FoodOTOOneWayOwnerRepository;
+import com.sparta.jpaadvance.repository.UserOTOOneWayDependentRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ public class OneToOneTest {
     private final String USER_NAME = "username";
 
     @Autowired
-    FoodOneToOneOwnerRepository foodRepository;
+    FoodOTOOneWayOwnerRepository foodRepository;
     @Autowired
-    UserOneToOneDependentRepository userRepository;
+    UserOTOOneWayDependentRepository userRepository;
 
     @Test
     void insertNullValueIntoNonNullColumnTest() {
-        FoodOneToOneOwner hasNullNameFood = new FoodOneToOneOwner();
+        FoodOTOOneWayOwner hasNullNameFood = new FoodOTOOneWayOwner();
         hasNullNameFood.setPrice(1234);
         assertThatThrownBy(()->foodRepository.save(hasNullNameFood))
                 .isInstanceOf(DataIntegrityViolationException.class)
@@ -41,13 +41,31 @@ public class OneToOneTest {
     @DisplayName("1대1 단방향 외래키 저장 성공 테스트")
     void oneToOneForiegnKeySuccessTest() {
 
-        UserOneToOneDependent user = getUser();
+        UserOTOOneWayDependent user = getUser();
 
         // 외래 키의 주인인 Food Entity user 필드에 user 객체를 추가해 줍니다.
-        FoodOneToOneOwner food = new FoodOneToOneOwner();
+        FoodOTOOneWayOwner food = new FoodOTOOneWayOwner();
         food.setName("후라이드 치킨");
         food.setPrice(15000);
-        food.setUserOneToOneDependent(user); // 외래 키(연관 관계) 설정
+        food.setUser(user); // 외래 키(연관 관계) 설정
+
+        // 어차피 save에는 Transactional 어노테이션이 달려있다.
+        userRepository.save(user);
+        foodRepository.save(food);
+    }
+
+    @Test
+    @Rollback(value = false) // 테스트에서는 @Transactional 에 의해 자동 rollback 됨으로 false 설정해준다.
+    @DisplayName("1대1 단방향 외래키 저장 성공 테스트")
+    void oneToOneForiegnKeyFailTest() {
+
+        UserOTOOneWayDependent user = getUser();
+
+        // 외래 키의 주인인 Food Entity user 필드에 user 객체를 추가해 줍니다.
+        FoodOTOOneWayOwner food = new FoodOTOOneWayOwner();
+        food.setName("후라이드 치킨");
+        food.setPrice(15000);
+        food.setUser(user); // 외래 키(연관 관계) 설정
 
         // 어차피 save에는 Transactional 어노테이션이 달려있다.
         userRepository.save(user);
@@ -55,11 +73,13 @@ public class OneToOneTest {
     }
 
 
-    FoodOneToOneOwner getFood() {
-        return new FoodOneToOneOwner(FOOD_NAME, 100);
+
+
+    FoodOTOOneWayOwner getFood() {
+        return new FoodOTOOneWayOwner(FOOD_NAME, 100);
     }
-    UserOneToOneDependent getUser(){
-        return new UserOneToOneDependent(USER_NAME);
+    UserOTOOneWayDependent getUser(){
+        return new UserOTOOneWayDependent(USER_NAME);
     }
 }
 
