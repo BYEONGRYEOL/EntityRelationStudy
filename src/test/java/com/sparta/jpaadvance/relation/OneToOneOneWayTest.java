@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @Transactional
 @SpringBootTest
-public class OneToOneTest {
+public class OneToOneOneWayTest {
 
     private final String FOOD_NAME = "foodName";
     private final String USER_NAME = "username";
@@ -71,7 +71,6 @@ public class OneToOneTest {
         userRepository.save(user);
         foodRepository.save(food);
     }
-
 
 
 
