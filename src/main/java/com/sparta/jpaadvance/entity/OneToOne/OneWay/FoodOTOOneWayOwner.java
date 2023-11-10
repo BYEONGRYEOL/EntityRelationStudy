@@ -8,7 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "food")
+@Table(name = "food_oto_oneway_owner")
 @NoArgsConstructor
 public class FoodOTOOneWayOwner {
     @Id
@@ -19,7 +19,7 @@ public class FoodOTOOneWayOwner {
     private double price;
 
     @OneToOne
-    @JoinColumn(name = "userOTOOneWayDependent_id")
+    @JoinColumn(name = "user_oto_oneway_dependent_id")
     private UserOTOOneWayDependent user;
 
     public FoodOTOOneWayOwner(String name, double price) {

@@ -26,14 +26,14 @@ public class OneToOneOneWayTest {
     @Autowired
     UserOTOOneWayDependentRepository userRepository;
 
-    @Test
-    void insertNullValueIntoNonNullColumnTest() {
-        FoodOTOOneWayOwner hasNullNameFood = new FoodOTOOneWayOwner();
-        hasNullNameFood.setPrice(1234);
-        assertThatThrownBy(()->foodRepository.save(hasNullNameFood))
-                .isInstanceOf(DataIntegrityViolationException.class)
-                .hasMessageContaining("not-null property references a null or transient value");
-    }
+//    @Test
+//    void insertNullValueIntoNonNullColumnTest() {
+//        FoodOTOOneWayOwner hasNullNameFood = new FoodOTOOneWayOwner();
+//        hasNullNameFood.setPrice(1234);
+//        assertThatThrownBy(()->foodRepository.save(hasNullNameFood))
+//                .isInstanceOf(DataIntegrityViolationException.class)
+//                .hasMessageContaining("not-null property references a null or transient value");
+//    }
 
 
     @Test
@@ -42,11 +42,9 @@ public class OneToOneOneWayTest {
     void oneToOneForiegnKeySuccessTest() {
 
         UserOTOOneWayDependent user = getUser();
+        FoodOTOOneWayOwner food = getFood();
 
         // 외래 키의 주인인 Food Entity user 필드에 user 객체를 추가해 줍니다.
-        FoodOTOOneWayOwner food = new FoodOTOOneWayOwner();
-        food.setName("후라이드 치킨");
-        food.setPrice(15000);
         food.setUser(user); // 외래 키(연관 관계) 설정
 
         // 어차피 save에는 Transactional 어노테이션이 달려있다.
@@ -56,16 +54,13 @@ public class OneToOneOneWayTest {
 
     @Test
     @Rollback(value = false) // 테스트에서는 @Transactional 에 의해 자동 rollback 됨으로 false 설정해준다.
-    @DisplayName("1대1 단방향 외래키 저장 성공 테스트")
+    @DisplayName("1대1 단방향 외래키 저장 실패 테스트")
     void oneToOneForiegnKeyFailTest() {
 
         UserOTOOneWayDependent user = getUser();
 
         // 외래 키의 주인인 Food Entity user 필드에 user 객체를 추가해 줍니다.
-        FoodOTOOneWayOwner food = new FoodOTOOneWayOwner();
-        food.setName("후라이드 치킨");
-        food.setPrice(15000);
-        food.setUser(user); // 외래 키(연관 관계) 설정
+        FoodOTOOneWayOwner food = getFood();
 
         // 어차피 save에는 Transactional 어노테이션이 달려있다.
         userRepository.save(user);

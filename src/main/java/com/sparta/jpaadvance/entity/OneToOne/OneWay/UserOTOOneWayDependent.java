@@ -8,7 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "users")
+@Table(name = "user_oto_oneway_dependent")
 @NoArgsConstructor
 public class UserOTOOneWayDependent {
     @Id
